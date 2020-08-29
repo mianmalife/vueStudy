@@ -1,42 +1,61 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    <KForm :model="userInfo" :rules="rules" ref="loginForm">
+      <KFormItem label="用户名" prop="username">
+        <KInput v-model="userInfo.username" placeholder="请输入用户名"></KInput>
+      </KFormItem>
+      <KFormItem label="密码" prop="password">
+        <KInput v-model="userInfo.password" placeholder="请输入密码"></KInput>
+      </KFormItem>
+      <KFormItem>
+        <button @click="submit">提交</button>
+      </KFormItem>
+    </KForm>
   </div>
 </template>
-
 <script>
+import KInput from './KInput.vue'
+import KFormItem from './KFormItem.vue'
+import KForm from './KForm.vue'
+// import Notice from './Notice.vue'
+import KDialog from './k-dialog.vue'
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+  data () {
+    return {
+      userInfo: {
+        username: '',
+        password: ''
+      },
+      rules: {
+        username: [{ required: true, message: '请输入用户名' }],
+        password: [{ required: true, message: '请输入密码' }]
+      }
+    }
+  },
+  components: {
+    KInput,
+    KFormItem,
+    KForm,
+    KDialog
+  },
+  methods: {
+    submit () {
+      this.$refs.loginForm.validate((valid) => {
+        // const notice = this.$create(Notice, {
+        //   title: '9999',
+        //   message: valid ? '去登录' : '失败了',
+        //   duration: 3000
+        // })
+        // notice.show()
+        const dialog = this.$createNew(KDialog, {
+          title: '提示',
+          message: valid? '去登录': '用户名或密码错误',
+          duration: 2000
+        })
+        dialog.show()
+      })
+    }
   }
 }
 </script>
