@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import KDialog from './components/k-dialog.vue'
 function create (Component, props) {
   const Cot = Vue.extend(Component)
   const cmp = new Cot({propsData: props})
@@ -22,4 +23,10 @@ function create (Component, props) {
   // }
   // return cmp
 }
-export default create
+export default {
+  install(Vue) {
+    Vue.prototype.$dialog = function(option) {
+      return create(KDialog, option)
+    }
+  }
+}

@@ -18,7 +18,7 @@ import KInput from './KInput.vue'
 import KFormItem from './KFormItem.vue'
 import KForm from './KForm.vue'
 // import Notice from './Notice.vue'
-import KDialog from './k-dialog.vue'
+// import KDialog from './k-dialog.vue'
 export default {
   name: 'HelloWorld',
   data () {
@@ -36,8 +36,7 @@ export default {
   components: {
     KInput,
     KFormItem,
-    KForm,
-    KDialog
+    KForm
   },
   methods: {
     submit () {
@@ -48,7 +47,7 @@ export default {
         //   duration: 3000
         // })
         // notice.show()
-        const dialog = this.$createNew(KDialog, {
+        const dialog = this.$dialog({
           title: '提示',
           message: valid? '去登录': '用户名或密码错误',
           duration: 2000
