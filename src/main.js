@@ -6,7 +6,6 @@ import create from './create'
 // import createNew from './createNew'
 Vue.config.productionTip = false
 // Vue.prototype.$create = create
-// Vue.prototype.$createNew = createNew
 Vue.use(create)
 new Vue({
   router,
